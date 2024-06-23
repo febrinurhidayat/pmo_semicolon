@@ -38,7 +38,7 @@ class _LeavePageState extends State<LeavePage> {
       backgroundColor: Colors.white,
       appBar: AppBar(
         elevation: 0,
-        backgroundColor: Colors.pinkAccent,
+        backgroundColor: Colors.green,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back_ios, color: Colors.white),
           onPressed: () => Navigator.of(context).pop(),
@@ -65,7 +65,7 @@ class _LeavePageState extends State<LeavePage> {
                     borderRadius: BorderRadius.only(
                         topLeft: Radius.circular(10),
                         topRight: Radius.circular(10)),
-                    color: Colors.pinkAccent,
+                    color: Colors.green,
                   ),
                   child: const Row(
                     children: [
@@ -104,11 +104,11 @@ class _LeavePageState extends State<LeavePage> {
                             color: Colors.black),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
-                          borderSide: const BorderSide(color: Colors.pinkAccent),
+                          borderSide: const BorderSide(color: Colors.green),
                         ),
                         enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
-                          borderSide: const BorderSide(color: Colors.pinkAccent),
+                          borderSide: const BorderSide(color: Colors.green),
                         ),
                     ),
                   ),
@@ -129,7 +129,7 @@ class _LeavePageState extends State<LeavePage> {
                     padding: const EdgeInsets.symmetric(horizontal: 10),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
-                      border: Border.all(color: Colors.pinkAccent, style: BorderStyle.solid, width: 1),
+                      border: Border.all(color: Colors.green, style: BorderStyle.solid, width: 1),
                     ),
                     child: DropdownButton(
                       dropdownColor: Colors.white,
@@ -166,7 +166,7 @@ class _LeavePageState extends State<LeavePage> {
                     Expanded(
                       child: Row(
                         children: [
-                          const Text("From: ",
+                          const Text("Tanggal: ",
                               style: TextStyle(
                                   fontSize: 16,
                                   fontWeight: FontWeight.bold,
@@ -181,9 +181,9 @@ class _LeavePageState extends State<LeavePage> {
                                       return Theme(
                                         data: Theme.of(context).copyWith(
                                           colorScheme: const ColorScheme.light(onPrimary: Colors.white,
-                                              onBackground: Colors.white, primary: Colors.pinkAccent),
+                                              onBackground: Colors.white, primary: Colors.green),
                                           datePickerTheme: const DatePickerThemeData(
-                                            headerBackgroundColor: Colors.pinkAccent,
+                                            headerBackgroundColor: Colors.green,
                                             backgroundColor: Colors.white,
                                             headerForegroundColor: Colors.white,
                                             surfaceTintColor: Colors.white,
@@ -208,7 +208,7 @@ class _LeavePageState extends State<LeavePage> {
                               controller: fromController,
                               decoration: const InputDecoration(
                                 contentPadding: EdgeInsets.all(8),
-                                hintText: "Starting From",
+                                hintText: "Mulai dari",
                                 hintStyle:
                                 TextStyle(color: Colors.grey, fontSize: 16),
                               ),
@@ -223,7 +223,7 @@ class _LeavePageState extends State<LeavePage> {
                     Expanded(
                       child: Row(
                         children: [
-                          const Text("Until: ",
+                          const Text("Tanggal: ",
                               style: TextStyle(
                                   fontSize: 16,
                                   fontWeight: FontWeight.bold,
@@ -238,9 +238,9 @@ class _LeavePageState extends State<LeavePage> {
                                       return Theme(
                                         data: Theme.of(context).copyWith(
                                           colorScheme: const ColorScheme.light(onPrimary: Colors.white,
-                                              onBackground: Colors.white, primary: Colors.pinkAccent),
+                                              onBackground: Colors.white, primary: Colors.green),
                                           datePickerTheme: const DatePickerThemeData(
-                                            headerBackgroundColor: Colors.pinkAccent,
+                                            headerBackgroundColor: Colors.green,
                                             backgroundColor: Colors.white,
                                             headerForegroundColor: Colors.white,
                                             surfaceTintColor: Colors.white,
@@ -264,7 +264,7 @@ class _LeavePageState extends State<LeavePage> {
                               controller: toController,
                               decoration: const InputDecoration(
                                 contentPadding: EdgeInsets.all(8),
-                                hintText: "Until",
+                                hintText: "Sampai dari",
                                 hintStyle:
                                 TextStyle(color: Colors.grey, fontSize: 16),
                               ),
@@ -289,7 +289,7 @@ class _LeavePageState extends State<LeavePage> {
                             color: Colors.white),
                         child: Material(
                           borderRadius: BorderRadius.circular(20),
-                          color: Colors.pinkAccent,
+                          color: Colors.green,
                           child: InkWell(
                             splashColor: Colors.pink,
                             borderRadius: BorderRadius.circular(20),
@@ -339,7 +339,7 @@ class _LeavePageState extends State<LeavePage> {
     AlertDialog alert = AlertDialog(
       content: Row(
         children: [
-          const CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(Colors.pinkAccent)),
+          const CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(Colors.green)),
           Container(
               margin: const EdgeInsets.only(left: 20),
               child: const Text("Mohon tunggu..."),

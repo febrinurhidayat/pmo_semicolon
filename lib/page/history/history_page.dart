@@ -19,7 +19,7 @@ class _HistoryPageState extends State<HistoryPage> {
       backgroundColor: Colors.white,
       appBar: AppBar(
         elevation: 0,
-        backgroundColor: Colors.pinkAccent,
+        backgroundColor: Colors.green,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back_ios, color: Colors.white),
           onPressed: () => Navigator.of(context).pop(),
@@ -59,7 +59,7 @@ class _HistoryPageState extends State<HistoryPage> {
                                 });
                               },
                               child: const Text("Ya",
-                                  style: TextStyle(fontSize: 14, color: Colors.pinkAccent),
+                                  style: TextStyle(fontSize: 14, color: Colors.green),
                               ),
                           ),
                           TextButton(
@@ -222,7 +222,7 @@ class _HistoryPageState extends State<HistoryPage> {
                 style: TextStyle(fontSize: 20)));
           } else {
             return const Center(child: CircularProgressIndicator(
-                valueColor: AlwaysStoppedAnimation<Color>(Colors.pinkAccent),
+                valueColor: AlwaysStoppedAnimation<Color>(Colors.green),
             ));
           }
         },

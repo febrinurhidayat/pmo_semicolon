@@ -51,7 +51,7 @@ class _AbsenPageState extends State<AbsenPage> {
       backgroundColor: Colors.white,
       appBar: AppBar(
         elevation: 0,
-        backgroundColor: Colors.pinkAccent,
+        backgroundColor: Colors.green,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back_ios, color: Colors.white),
           onPressed: () => Navigator.of(context).pop(),
@@ -78,7 +78,7 @@ class _AbsenPageState extends State<AbsenPage> {
                     borderRadius: BorderRadius.only(
                         topLeft: Radius.circular(10),
                         topRight: Radius.circular(10)),
-                    color: Colors.pinkAccent,
+                    color: Colors.green,
                   ),
                   child: const Row(
                     children: [
@@ -122,7 +122,7 @@ class _AbsenPageState extends State<AbsenPage> {
                     child: DottedBorder(
                         radius: const Radius.circular(10),
                         borderType: BorderType.RRect,
-                        color: Colors.pinkAccent,
+                        color: Colors.green,
                         strokeWidth: 1,
                         dashPattern: const [5, 5],
                         child: SizedBox.expand(
@@ -131,7 +131,7 @@ class _AbsenPageState extends State<AbsenPage> {
                                 ? Image.file(File(image!.path), fit: BoxFit.cover)
                                 : const Icon(
                                     Icons.camera_enhance_outlined,
-                                    color: Colors.pinkAccent,
+                                    color: Colors.green,
                             ),
                           ),
                         ),
@@ -156,11 +156,11 @@ class _AbsenPageState extends State<AbsenPage> {
                             color: Colors.black),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
-                          borderSide: const BorderSide(color: Colors.pinkAccent),
+                          borderSide: const BorderSide(color: Colors.green),
                         ),
                         enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
-                          borderSide: const BorderSide(color: Colors.pinkAccent),
+                          borderSide: const BorderSide(color: Colors.green),
                         ),
                     ),
                   ),
@@ -176,7 +176,7 @@ class _AbsenPageState extends State<AbsenPage> {
                   ),
                 ),
                 isLoading
-                    ? const Center(child: CircularProgressIndicator(color: Colors.pinkAccent,))
+                    ? const Center(child: CircularProgressIndicator(color: Colors.green,))
                     : Padding(
                       padding: const EdgeInsets.all(10),
                       child: SizedBox(
@@ -188,7 +188,7 @@ class _AbsenPageState extends State<AbsenPage> {
                             alignLabelWithHint: true,
                             disabledBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(10),
-                              borderSide: const BorderSide(color: Colors.pinkAccent),
+                              borderSide: const BorderSide(color: Colors.green),
                             ),
                             hintText: strAlamat != null
                                 ? strAlamat
@@ -215,7 +215,7 @@ class _AbsenPageState extends State<AbsenPage> {
                             color: Colors.white),
                         child: Material(
                           borderRadius: BorderRadius.circular(20),
-                          color: Colors.pinkAccent,
+                          color: Colors.green,
                           child: InkWell(
                             splashColor: Colors.pink,
                             borderRadius: BorderRadius.circular(20),
@@ -233,7 +233,7 @@ class _AbsenPageState extends State<AbsenPage> {
                                           style: TextStyle(color: Colors.white))
                                     ],
                                   ),
-                                  backgroundColor: Colors.redAccent,
+                                  backgroundColor: Colors.green,
                                   shape: StadiumBorder(),
                                   behavior: SnackBarBehavior.floating,
                                 ));
@@ -291,12 +291,12 @@ class _AbsenPageState extends State<AbsenPage> {
               color: Colors.white,
             ),
             SizedBox(width: 10),
-            Text("Location services are disabled. Please enable the services.",
+            Text("Layanan lokasi dinonaktifkan. Silakan aktifkan layanan.",
                 style: TextStyle(color: Colors.white),
             )
           ],
         ),
-        backgroundColor: Colors.redAccent,
+        backgroundColor: Colors.green,
         shape: StadiumBorder(),
         behavior: SnackBarBehavior.floating,
       ));
@@ -315,12 +315,12 @@ class _AbsenPageState extends State<AbsenPage> {
                 color: Colors.white,
               ),
               SizedBox(width: 10),
-              Text("Location permission denied.",
+              Text("Izin lokasi ditolak.",
                   style: TextStyle(color: Colors.white),
               )
             ],
           ),
-          backgroundColor: Colors.redAccent,
+          backgroundColor: Colors.green,
           shape: StadiumBorder(),
           behavior: SnackBarBehavior.floating,
         ));
@@ -337,12 +337,12 @@ class _AbsenPageState extends State<AbsenPage> {
               color: Colors.white,
             ),
             SizedBox(width: 10),
-            Text("Location permission denied forever, we cannot access.",
+            Text("Izin lokasi ditolak selamanya, kami tidak dapat mengakses.",
                 style: TextStyle(color: Colors.white),
             )
           ],
         ),
-        backgroundColor: Colors.redAccent,
+        backgroundColor: Colors.green,
         shape: StadiumBorder(),
         behavior: SnackBarBehavior.floating,
       ));
@@ -356,7 +356,7 @@ class _AbsenPageState extends State<AbsenPage> {
     AlertDialog alert = AlertDialog(
       content: Row(
         children: [
-          const CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(Colors.pinkAccent)),
+          const CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(Colors.green)),
           Container(
               margin: const EdgeInsets.only(left: 20),
               child: const Text("sedang memeriksa data..."),
@@ -443,7 +443,7 @@ class _AbsenPageState extends State<AbsenPage> {
                   ),
                 ],
               ),
-              backgroundColor: Colors.redAccent,
+              backgroundColor: Colors.green,
               shape: const StadiumBorder(),
               behavior: SnackBarBehavior.floating,
             ));
@@ -463,7 +463,7 @@ class _AbsenPageState extends State<AbsenPage> {
               )
             ],
           ),
-          backgroundColor: Colors.redAccent,
+          backgroundColor: Colors.green,
           shape: const StadiumBorder(),
           behavior: SnackBarBehavior.floating,
         ));

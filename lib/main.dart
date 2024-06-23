@@ -26,7 +26,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         cardTheme: const CardTheme(surfaceTintColor: Colors.white),
         dialogTheme: const DialogTheme(surfaceTintColor: Colors.white, backgroundColor: Colors.white),
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.pinkAccent),
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.green),
         useMaterial3: true,
       ),
       home: const MainPage(),

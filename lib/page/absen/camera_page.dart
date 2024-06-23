@@ -60,7 +60,7 @@ class _State extends State<CameraAbsenPage> with TickerProviderStateMixin {
             Text("Ups, kamera tidak ditemukan!", style: TextStyle(color: Colors.white))
           ],
         ),
-        backgroundColor: Colors.redAccent,
+        backgroundColor: Colors.green,
         shape: StadiumBorder(),
         behavior: SnackBarBehavior.floating,
       ));
@@ -77,7 +77,7 @@ class _State extends State<CameraAbsenPage> with TickerProviderStateMixin {
         content: Row(
           children: [
             const CircularProgressIndicator(valueColor:
-            AlwaysStoppedAnimation<Color>(Colors.pinkAccent)),
+            AlwaysStoppedAnimation<Color>(Colors.green)),
             Container(
                 margin: const EdgeInsets.only(left: 20),
                 child: const Text("Sedang memeriksa data...")
@@ -97,7 +97,7 @@ class _State extends State<CameraAbsenPage> with TickerProviderStateMixin {
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
-        backgroundColor: Colors.pinkAccent,
+        backgroundColor: Colors.green,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back_ios, color: Colors.white),
           onPressed: () => Navigator.of(context).pop(),
@@ -152,9 +152,9 @@ class _State extends State<CameraAbsenPage> with TickerProviderStateMixin {
                       padding: const EdgeInsets.only(top: 40),
                       child: ClipOval(
                         child: Material(
-                          color: Colors.pinkAccent, // Button color
+                          color: Colors.green, // Button color
                           child: InkWell(
-                            splashColor: Colors.pink, // Splash color
+                            splashColor: Colors.greenAccent, // Splash color
                             onTap: () async {
                               final hasPermission = await handleLocationPermission();
                               try {
@@ -183,7 +183,7 @@ class _State extends State<CameraAbsenPage> with TickerProviderStateMixin {
                                               )
                                             ],
                                           ),
-                                          backgroundColor: Colors.redAccent,
+                                          backgroundColor: Colors.green,
                                           shape: StadiumBorder(),
                                           behavior: SnackBarBehavior.floating,
                                         ));
@@ -205,7 +205,7 @@ class _State extends State<CameraAbsenPage> with TickerProviderStateMixin {
                                       )
                                     ],
                                   ),
-                                  backgroundColor: Colors.redAccent,
+                                  backgroundColor: Colors.green,
                                   shape: const StadiumBorder(),
                                   behavior: SnackBarBehavior.floating,
                                 ));
@@ -244,12 +244,12 @@ class _State extends State<CameraAbsenPage> with TickerProviderStateMixin {
               color: Colors.white,
             ),
             SizedBox(width: 10),
-            Text("Location services are disabled. Please enable the services.",
+            Text("Layanan lokasi dinonaktifkan. Silakan aktifkan layanan.",
                 style: TextStyle(color: Colors.white),
             )
           ],
         ),
-        backgroundColor: Colors.redAccent,
+        backgroundColor: Colors.green,
         shape: StadiumBorder(),
         behavior: SnackBarBehavior.floating,
       ));
@@ -268,12 +268,12 @@ class _State extends State<CameraAbsenPage> with TickerProviderStateMixin {
                 color: Colors.white,
               ),
               SizedBox(width: 10),
-              Text("Location permission denied.",
+              Text("Izin lokasi ditolak.",
                 style: TextStyle(color: Colors.white),
               )
             ],
           ),
-          backgroundColor: Colors.redAccent,
+          backgroundColor: Colors.green,
           shape: StadiumBorder(),
           behavior: SnackBarBehavior.floating,
         ));
@@ -290,12 +290,12 @@ class _State extends State<CameraAbsenPage> with TickerProviderStateMixin {
               color: Colors.white,
             ),
             SizedBox(width: 10),
-            Text("Location permission denied forever, we cannot access.",
+            Text("Izin lokasi ditolak selamanya, kami tidak dapat mengakses.",
                 style: TextStyle(color: Colors.white),
             )
           ],
         ),
-        backgroundColor: Colors.redAccent,
+        backgroundColor: Colors.green,
         shape: StadiumBorder(),
         behavior: SnackBarBehavior.floating,
       ));
@@ -334,7 +334,7 @@ class _State extends State<CameraAbsenPage> with TickerProviderStateMixin {
                 )
               ],
             ),
-            backgroundColor: Colors.redAccent,
+            backgroundColor: Colors.green,
             shape: StadiumBorder(),
             behavior: SnackBarBehavior.floating,
           ));
