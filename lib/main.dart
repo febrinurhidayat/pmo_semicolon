@@ -7,11 +7,13 @@ Future<void> main() async {
   await Firebase.initializeApp(
     options: const FirebaseOptions(
 
-      //data lihat di file google-services.json
-      apiKey: 'AIzaSyCLFwDUfbSXC2qsbZ1XjZnn9KU9vWQJV3o', //current_key
-      appId: '1:156216172419:android:6f318ab36bf96c986da0b6', //mobilesdk_app_id
-      messagingSenderId: '156216172419', //project_number
-      projectId: 'absensi-12ff9'), //project_id
+        //data lihat di file google-services.json
+        apiKey: 'AIzaSyCLFwDUfbSXC2qsbZ1XjZnn9KU9vWQJV3o', //current_key
+        appId:
+            '1:156216172419:android:6f318ab36bf96c986da0b6', //mobilesdk_app_id
+        messagingSenderId: '156216172419', //project_number
+        projectId: 'absensi-12ff9',
+        storageBucket: "gs://absensi-12ff9.appspot.com"),
   );
   runApp(const MyApp());
 }
@@ -25,7 +27,8 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         cardTheme: const CardTheme(surfaceTintColor: Colors.white),
-        dialogTheme: const DialogTheme(surfaceTintColor: Colors.white, backgroundColor: Colors.white),
+        dialogTheme: const DialogTheme(
+            surfaceTintColor: Colors.white, backgroundColor: Colors.white),
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.green),
         useMaterial3: true,
       ),

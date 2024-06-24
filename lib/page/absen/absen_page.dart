@@ -5,6 +5,7 @@ import 'package:absensi_flutter/page/main_page.dart';
 import 'package:camera/camera.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dotted_border/dotted_border.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
@@ -22,14 +23,22 @@ class AbsenPage extends StatefulWidget {
 class _AbsenPageState extends State<AbsenPage> {
   _AbsenPageState(this.image);
 
+  File? _image_absen;
   XFile? image;
-  String strAlamat = "", strDate = "", strTime = "", strDateTime = "", strStatus = "Absen Masuk";
+  String strAlamat = "",
+      strDate = "",
+      strTime = "",
+      strDateTime = "",
+      strStatus = "Absen Masuk";
   bool isLoading = false;
   double dLat = 0.0, dLong = 0.0;
   int dateHours = 0, dateMinutes = 0;
   final controllerName = TextEditingController();
-  final CollectionReference dataCollection = FirebaseFirestore.instance.collection('absensi');
+  final CollectionReference dataCollection =
+      FirebaseFirestore.instance.collection('absensi');
 
+  final CollectionReference _imagesCollection =
+      FirebaseFirestore.instance.collection('images');
   @override
   void initState() {
     handleLocationPermission();
@@ -41,6 +50,41 @@ class _AbsenPageState extends State<AbsenPage> {
       getGeoLocationPosition();
     }
     super.initState();
+  }
+
+  Future<void> _uploadImage() async {
+    if (widget.image != null) {
+      setState(() {
+        _image_absen = File(widget.image!.path);
+      });
+    }
+
+    if (_image_absen == null) return;
+
+    try {
+      String fileName = DateTime.now().millisecondsSinceEpoch.toString();
+      Reference firebaseStorageRef =
+          FirebaseStorage.instance.ref().child('uploads/$fileName');
+
+      UploadTask uploadTask = firebaseStorageRef.putFile(_image_absen!);
+      TaskSnapshot taskSnapshot = await uploadTask.whenComplete(() {});
+
+      String downloadUrl = await taskSnapshot.ref.getDownloadURL();
+      print("Download URL: $downloadUrl");
+
+      // Save download URL to Firestore
+      await _imagesCollection.add({'url': downloadUrl});
+
+      submitAbsen(
+          strAlamat, controllerName.text.toString(), strStatus, downloadUrl);
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Upload complete!')),
+      );
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Upload failed: $e')),
+      );
+    }
   }
 
   @override
@@ -58,7 +102,8 @@ class _AbsenPageState extends State<AbsenPage> {
         ),
         title: const Text(
           "Menu Absensi",
-          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white),
+          style: TextStyle(
+              fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white),
         ),
       ),
       body: SingleChildScrollView(
@@ -85,7 +130,8 @@ class _AbsenPageState extends State<AbsenPage> {
                       SizedBox(
                         width: 12,
                       ),
-                      Icon(Icons.face_retouching_natural_outlined, color: Colors.white),
+                      Icon(Icons.face_retouching_natural_outlined,
+                          color: Colors.white),
                       SizedBox(
                         width: 12,
                       ),
@@ -113,28 +159,29 @@ class _AbsenPageState extends State<AbsenPage> {
                   onTap: () {
                     Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => const CameraAbsenPage()));
+                        MaterialPageRoute(
+                            builder: (context) => const CameraAbsenPage()));
                   },
                   child: Container(
                     margin: const EdgeInsets.fromLTRB(10, 0, 10, 20),
                     width: size.width,
                     height: 150,
                     child: DottedBorder(
-                        radius: const Radius.circular(10),
-                        borderType: BorderType.RRect,
-                        color: Colors.green,
-                        strokeWidth: 1,
-                        dashPattern: const [5, 5],
-                        child: SizedBox.expand(
-                          child: FittedBox(
-                            child: image != null
-                                ? Image.file(File(image!.path), fit: BoxFit.cover)
-                                : const Icon(
-                                    Icons.camera_enhance_outlined,
-                                    color: Colors.green,
-                            ),
-                          ),
+                      radius: const Radius.circular(10),
+                      borderType: BorderType.RRect,
+                      color: Colors.green,
+                      strokeWidth: 1,
+                      dashPattern: const [5, 5],
+                      child: SizedBox.expand(
+                        child: FittedBox(
+                          child: image != null
+                              ? Image.file(File(image!.path), fit: BoxFit.cover)
+                              : const Icon(
+                                  Icons.camera_enhance_outlined,
+                                  color: Colors.green,
+                                ),
                         ),
+                      ),
                     ),
                   ),
                 ),
@@ -145,23 +192,22 @@ class _AbsenPageState extends State<AbsenPage> {
                     keyboardType: TextInputType.text,
                     controller: controllerName,
                     decoration: InputDecoration(
-                        contentPadding: const EdgeInsets.symmetric(horizontal: 10),
-                        labelText: "Masukan Nama Anda",
-                        hintText: "Nama Anda",
-                        hintStyle: const TextStyle(
-                            fontSize: 14,
-                            color: Colors.grey),
-                        labelStyle: const TextStyle(
-                            fontSize: 14,
-                            color: Colors.black),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
-                          borderSide: const BorderSide(color: Colors.green),
-                        ),
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
-                          borderSide: const BorderSide(color: Colors.green),
-                        ),
+                      contentPadding:
+                          const EdgeInsets.symmetric(horizontal: 10),
+                      labelText: "Masukan Nama Anda",
+                      hintText: "Nama Anda",
+                      hintStyle:
+                          const TextStyle(fontSize: 14, color: Colors.grey),
+                      labelStyle:
+                          const TextStyle(fontSize: 14, color: Colors.black),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        borderSide: const BorderSide(color: Colors.green),
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        borderSide: const BorderSide(color: Colors.green),
+                      ),
                     ),
                   ),
                 ),
@@ -176,31 +222,35 @@ class _AbsenPageState extends State<AbsenPage> {
                   ),
                 ),
                 isLoading
-                    ? const Center(child: CircularProgressIndicator(color: Colors.green,))
+                    ? const Center(
+                        child: CircularProgressIndicator(
+                        color: Colors.green,
+                      ))
                     : Padding(
-                      padding: const EdgeInsets.all(10),
-                      child: SizedBox(
-                        height: 5 * 24,
-                        child: TextField(
-                          enabled: false,
-                          maxLines: 5,
-                          decoration: InputDecoration(
-                            alignLabelWithHint: true,
-                            disabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10),
-                              borderSide: const BorderSide(color: Colors.green),
+                        padding: const EdgeInsets.all(10),
+                        child: SizedBox(
+                          height: 5 * 24,
+                          child: TextField(
+                            enabled: false,
+                            maxLines: 5,
+                            decoration: InputDecoration(
+                              alignLabelWithHint: true,
+                              disabledBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10),
+                                borderSide:
+                                    const BorderSide(color: Colors.green),
+                              ),
+                              hintText: strAlamat != null
+                                  ? strAlamat
+                                  : strAlamat = 'Lokasi Kamu',
+                              hintStyle: const TextStyle(
+                                  fontSize: 14, color: Colors.grey),
+                              fillColor: Colors.transparent,
+                              filled: true,
                             ),
-                            hintText: strAlamat != null
-                                ? strAlamat
-                                : strAlamat = 'Lokasi Kamu',
-                            hintStyle: const TextStyle(
-                                fontSize: 14, color: Colors.grey),
-                            fillColor: Colors.transparent,
-                            filled: true,
                           ),
                         ),
                       ),
-                ),
                 Container(
                     alignment: Alignment.center,
                     margin: const EdgeInsets.all(30),
@@ -215,13 +265,15 @@ class _AbsenPageState extends State<AbsenPage> {
                             color: Colors.white),
                         child: Material(
                           borderRadius: BorderRadius.circular(20),
-                          color: Colors.green,
+                          color: Colors.green, //tombol
                           child: InkWell(
-                            splashColor: Colors.pink,
+                            splashColor: Colors.green,
                             borderRadius: BorderRadius.circular(20),
                             onTap: () {
-                              if (image == null || controllerName.text.isEmpty) {
-                                ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                              if (image == null ||
+                                  controllerName.text.isEmpty) {
+                                ScaffoldMessenger.of(context)
+                                    .showSnackBar(const SnackBar(
                                   content: Row(
                                     children: [
                                       Icon(
@@ -229,7 +281,8 @@ class _AbsenPageState extends State<AbsenPage> {
                                         color: Colors.white,
                                       ),
                                       SizedBox(width: 10),
-                                      Text("Ups, foto dan inputan tidak boleh kosong!",
+                                      Text(
+                                          "Ups, foto dan inputan tidak boleh kosong!",
                                           style: TextStyle(color: Colors.white))
                                     ],
                                   ),
@@ -238,13 +291,15 @@ class _AbsenPageState extends State<AbsenPage> {
                                   behavior: SnackBarBehavior.floating,
                                 ));
                               } else {
-                                submitAbsen(strAlamat, controllerName.text.toString(), strStatus);
+                                _uploadImage();
                               }
                             },
                             child: const Center(
                               child: Text(
                                 "Absen Sekarang",
-                                style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold),
                               ),
                             ),
                           ),
@@ -259,7 +314,8 @@ class _AbsenPageState extends State<AbsenPage> {
 
   //get realtime location
   Future<void> getGeoLocationPosition() async {
-    Position position = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.low);
+    Position position = await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.low);
     setState(() {
       isLoading = false;
       getAddressFromLongLat(position);
@@ -268,14 +324,15 @@ class _AbsenPageState extends State<AbsenPage> {
 
   //get address by lat long
   Future<void> getAddressFromLongLat(Position position) async {
-    List<Placemark> placemarks = await placemarkFromCoordinates(position.latitude, position.longitude);
+    List<Placemark> placemarks =
+        await placemarkFromCoordinates(position.latitude, position.longitude);
     print(placemarks);
     Placemark place = placemarks[0];
     setState(() {
       dLat = double.parse('${position.latitude}');
       dLat = double.parse('${position.longitude}');
       strAlamat =
-      "${place.street}, ${place.subLocality}, ${place.locality}, ${place.postalCode}, ${place.country}";
+          "${place.street}, ${place.subLocality}, ${place.locality}, ${place.postalCode}, ${place.country}";
     });
   }
 
@@ -291,8 +348,9 @@ class _AbsenPageState extends State<AbsenPage> {
               color: Colors.white,
             ),
             SizedBox(width: 10),
-            Text("Layanan lokasi dinonaktifkan. Silakan aktifkan layanan.",
-                style: TextStyle(color: Colors.white),
+            Text(
+              "Layanan lokasi dinonaktifkan. Silakan aktifkan layanan.",
+              style: TextStyle(color: Colors.white),
             )
           ],
         ),
@@ -315,8 +373,9 @@ class _AbsenPageState extends State<AbsenPage> {
                 color: Colors.white,
               ),
               SizedBox(width: 10),
-              Text("Izin lokasi ditolak.",
-                  style: TextStyle(color: Colors.white),
+              Text(
+                "Izin lokasi ditolak.",
+                style: TextStyle(color: Colors.white),
               )
             ],
           ),
@@ -337,8 +396,9 @@ class _AbsenPageState extends State<AbsenPage> {
               color: Colors.white,
             ),
             SizedBox(width: 10),
-            Text("Izin lokasi ditolak selamanya, kami tidak dapat mengakses.",
-                style: TextStyle(color: Colors.white),
+            Text(
+              "Izin lokasi ditolak selamanya, kami tidak dapat mengakses.",
+              style: TextStyle(color: Colors.white),
             )
           ],
         ),
@@ -351,15 +411,15 @@ class _AbsenPageState extends State<AbsenPage> {
     return true;
   }
 
-  //show progress dialog
   showLoaderDialog(BuildContext context) {
     AlertDialog alert = AlertDialog(
       content: Row(
         children: [
-          const CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(Colors.green)),
+          const CircularProgressIndicator(
+              valueColor: AlwaysStoppedAnimation<Color>(Colors.green)),
           Container(
-              margin: const EdgeInsets.only(left: 20),
-              child: const Text("sedang memeriksa data..."),
+            margin: const EdgeInsets.only(left: 20),
+            child: const Text("sedang memeriksa data..."),
           ),
         ],
       ),
@@ -371,6 +431,16 @@ class _AbsenPageState extends State<AbsenPage> {
         return alert;
       },
     );
+
+    // Contoh penutupan dialog setelah 3 detik
+    Future.delayed(Duration(seconds: 1), () {
+      Navigator.of(context).pop(); // Tutup dialog setelah 3 detik
+      Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+              builder: (BuildContext context) =>
+                  MainPage())); // Pindah ke halaman MainPage
+    });
   }
 
   //check format date time
@@ -395,80 +465,87 @@ class _AbsenPageState extends State<AbsenPage> {
   void setStatusAbsen() {
     if (dateHours < 8 || (dateHours == 8 && dateMinutes <= 30)) {
       strStatus = "Absen Masuk";
-    }
-    else if ((dateHours > 8 && dateHours < 18) || (dateHours == 8 && dateMinutes >= 31)) {
+    } else if ((dateHours > 8 && dateHours < 18) ||
+        (dateHours == 8 && dateMinutes >= 31)) {
       strStatus = "Absen Telat";
-    }
-    else {
+    } else {
       strStatus = "Absen Keluar";
     }
   }
 
   //submit data absent to firebase
-  Future<void> submitAbsen(String alamat, String nama, String status) async {
-      showLoaderDialog(context);
-      dataCollection.add({'alamat': alamat, 'nama': nama,
-        'keterangan': status, 'datetime': strDateTime}).then((result) {
-        setState(() {
-          Navigator.of(context).pop();
-          try {
-            ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-              content: Row(
-                children: [
-                  Icon(
-                    Icons.check_circle_outline,
-                    color: Colors.white,
-                  ),
-                  SizedBox(width: 10),
-                  Text("Yeay! Absen berhasil!", style: TextStyle(color: Colors.white))
-                ],
-              ),
-              backgroundColor: Colors.green,
-              shape: StadiumBorder(),
-              behavior: SnackBarBehavior.floating,
-            ));
-            Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const MainPage()));
-          }
-          catch (e) {
-            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-              content: Row(
-                children: [
-                  const Icon(
-                    Icons.info_outline,
-                    color: Colors.white,
-                  ),
-                  const SizedBox(width: 10),
-                  Expanded(
-                    child: Text("Ups, $e", style: const TextStyle(color: Colors.white)),
-                  ),
-                ],
-              ),
-              backgroundColor: Colors.green,
-              shape: const StadiumBorder(),
-              behavior: SnackBarBehavior.floating,
-            ));
-          }
-        });
-      }).catchError((error) {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: Row(
-            children: [
-              const Icon(
-                Icons.error_outline,
-                color: Colors.white,
-              ),
-              const SizedBox(width: 10),
-              Expanded(
-                  child: Text("Ups, $error", style: const TextStyle(color: Colors.white))
-              )
-            ],
-          ),
-          backgroundColor: Colors.green,
-          shape: const StadiumBorder(),
-          behavior: SnackBarBehavior.floating,
-        ));
+  Future<void> submitAbsen(
+      String alamat, String nama, String status, String url) async {
+    _uploadImage();
+    showLoaderDialog(context);
+    dataCollection.add({
+      'alamat': alamat,
+      'nama': nama,
+      'keterangan': status,
+      'datetime': strDateTime,
+      'url': url
+    }).then((result) {
+      setState(() {
         Navigator.of(context).pop();
+        try {
+          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+            content: Row(
+              children: [
+                Icon(
+                  Icons.check_circle_outline,
+                  color: Colors.white,
+                ),
+                SizedBox(width: 10),
+                Text("Yeay! Absen berhasil!",
+                    style: TextStyle(color: Colors.white))
+              ],
+            ),
+            backgroundColor: Colors.green,
+            shape: StadiumBorder(),
+            behavior: SnackBarBehavior.floating,
+          ));
+          Navigator.pushReplacement(context,
+              MaterialPageRoute(builder: (context) => const MainPage()));
+        } catch (e) {
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            content: Row(
+              children: [
+                const Icon(
+                  Icons.info_outline,
+                  color: Colors.white,
+                ),
+                const SizedBox(width: 10),
+                Expanded(
+                  child: Text("Ups, $e",
+                      style: const TextStyle(color: Colors.white)),
+                ),
+              ],
+            ),
+            backgroundColor: Colors.green,
+            shape: const StadiumBorder(),
+            behavior: SnackBarBehavior.floating,
+          ));
+        }
       });
+    }).catchError((error) {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Row(
+          children: [
+            const Icon(
+              Icons.error_outline,
+              color: Colors.white,
+            ),
+            const SizedBox(width: 10),
+            Expanded(
+                child: Text("Ups, $error",
+                    style: const TextStyle(color: Colors.white)))
+          ],
+        ),
+        backgroundColor: Colors.green,
+        shape: const StadiumBorder(),
+        behavior: SnackBarBehavior.floating,
+      ));
+      Navigator.of(context).pop();
+    });
   }
-
 }

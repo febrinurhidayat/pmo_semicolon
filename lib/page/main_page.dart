@@ -18,9 +18,9 @@ class MainPage extends StatelessWidget {
         _onWillPop(context);
       },
       child: Scaffold(
-        appBar: AppBar(
+       appBar: AppBar(
           backgroundColor: Colors.green,
-          title: Text(
+          title: const Text(
             "Absensi Face id",
             style: TextStyle(color: Colors.white),
           ),
