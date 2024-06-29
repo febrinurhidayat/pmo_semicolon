@@ -432,7 +432,7 @@ class _AbsenPageState extends State<AbsenPage> {
       },
     );
 
-    // Contoh penutupan dialog setelah 3 detik
+    // Contoh penutupan dialog setelah 1 detik
     Future.delayed(Duration(seconds: 1), () {
       Navigator.of(context).pop(); // Tutup dialog setelah 3 detik
       Navigator.pushReplacement(
@@ -463,24 +463,58 @@ class _AbsenPageState extends State<AbsenPage> {
 
   //check status absent
   void setStatusAbsen() {
-    if (dateHours < 8 || (dateHours == 8 && dateMinutes <= 30)) {
+    if (dateHours < 8 || (dateHours == 7 && dateMinutes <= 00)) {
       strStatus = "Absen Masuk";
-    } else if ((dateHours > 8 && dateHours < 18) ||
-        (dateHours == 8 && dateMinutes >= 31)) {
+    } else if ((dateHours > 8 && dateHours < 16) ||
+        (dateHours == 7 && dateMinutes >= 01)) {
       strStatus = "Absen Telat";
+    } else if (dateHours >= 16 && dateHours < 17) {
+      strStatus = "Absen Pulang";
     } else {
       strStatus = "Absen Keluar";
     }
   }
 
+//chek nama sudah atau belum
+  Future<bool> checkIfNameExists(String nama) async {
+    final QuerySnapshot result = await dataCollection
+        .where('nama', isEqualTo: nama.toLowerCase())
+        .limit(1)
+        .get();
+    final List<DocumentSnapshot> documents = result.docs;
+    return documents.isNotEmpty;
+  }
+
   //submit data absent to firebase
   Future<void> submitAbsen(
       String alamat, String nama, String status, String url) async {
+    bool nameExists = await checkIfNameExists(nama);
+    if (nameExists) {
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+        content: Row(
+          children: [
+            Icon(
+              Icons.error_outline,
+              color: Colors.white,
+            ),
+            SizedBox(width: 10),
+            Expanded(
+                child: Text("Ups, Anda sudah absen.",
+                    style: TextStyle(color: Colors.white)))
+          ],
+        ),
+        backgroundColor: Colors.red,
+        shape: StadiumBorder(),
+        behavior: SnackBarBehavior.floating,
+      ));
+      return; // keluar dari fungsi jika nama sudah ada
+    }
+
     _uploadImage();
     showLoaderDialog(context);
     dataCollection.add({
       'alamat': alamat,
-      'nama': nama,
+      'nama': nama.toLowerCase(), // simpan nama dalam huruf kecil
       'keterangan': status,
       'datetime': strDateTime,
       'url': url
