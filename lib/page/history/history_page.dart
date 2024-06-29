@@ -19,7 +19,7 @@ class _HistoryPageState extends State<HistoryPage> {
       backgroundColor: Colors.white,
       appBar: AppBar(
         elevation: 0,
-        backgroundColor: Colors.green,
+        backgroundColor: Color(0xFF6C3483),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back_ios, color: Colors.white),
           onPressed: () => Navigator.of(context).pop(),
@@ -67,13 +67,13 @@ class _HistoryPageState extends State<HistoryPage> {
                                 child: const Text(
                                   "Ya",
                                   style: TextStyle(
-                                      fontSize: 14, color: Colors.green),
+                                      fontSize: 14, color: Color.fromARGB(255, 14, 174, 107)),
                                 ),
                               ),
                               TextButton(
                                 child: const Text("Tidak",
                                     style: TextStyle(
-                                        fontSize: 14, color: Colors.black)),
+                                        fontSize: 14, color: Color.fromARGB(255, 222, 69, 69))),
                                 onPressed: () {
                                   Navigator.pop(context);
                                 },
@@ -298,7 +298,7 @@ class _HistoryPageState extends State<HistoryPage> {
           } else {
             return const Center(
                 child: CircularProgressIndicator(
-              valueColor: AlwaysStoppedAnimation<Color>(Colors.green),
+              valueColor: AlwaysStoppedAnimation<Color>(Color(0xFF6C3483)),
             ));
           }
         },

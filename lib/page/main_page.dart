@@ -19,7 +19,7 @@ class MainPage extends StatelessWidget {
       },
       child: Scaffold(
        appBar: AppBar(
-          backgroundColor: Colors.green,
+          backgroundColor: Color(0xFF6C3483),
           title: const Text(
             "Absensi Face id",
             style: TextStyle(color: Colors.white),
@@ -155,7 +155,7 @@ class MainPage extends StatelessWidget {
               TextButton(
                 onPressed: () => SystemNavigator.pop(),
                 child: const Text("Ya",
-                    style: TextStyle(color: Colors.green, fontSize: 14)),
+                    style: TextStyle(color: Color(0xFF6C3483), fontSize: 14)),
               ),
             ],
           ),

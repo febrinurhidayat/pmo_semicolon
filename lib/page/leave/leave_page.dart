@@ -27,7 +27,7 @@ class _LeavePageState extends State<LeavePage> {
       backgroundColor: Colors.white,
       appBar: AppBar(
         elevation: 0,
-        backgroundColor: Colors.green,
+        backgroundColor: const Color(0xFF6C3483),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back_ios, color: Colors.white),
           onPressed: () => Navigator.of(context).pop(),
@@ -55,7 +55,7 @@ class _LeavePageState extends State<LeavePage> {
                   borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(10),
                       topRight: Radius.circular(10)),
-                  color: Colors.green,
+                  color: Color(0xFF6C3483),
                 ),
                 child: const Row(
                   children: [
@@ -88,11 +88,11 @@ class _LeavePageState extends State<LeavePage> {
                         const TextStyle(fontSize: 14, color: Colors.black),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10),
-                      borderSide: const BorderSide(color: Colors.green),
+                      borderSide: const BorderSide(color: Color(0xFF6C3483)),
                     ),
                     enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10),
-                      borderSide: const BorderSide(color: Colors.green),
+                      borderSide: const BorderSide(color: Color(0xFF6C3483)),
                     ),
                   ),
                 ),
@@ -114,7 +114,7 @@ class _LeavePageState extends State<LeavePage> {
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10),
                     border: Border.all(
-                        color: Colors.green,
+                        color: Color(0xFF6C3483),
                         style: BorderStyle.solid,
                         width: 1),
                   ),
@@ -174,10 +174,10 @@ class _LeavePageState extends State<LeavePage> {
                                         colorScheme: const ColorScheme.light(
                                             onPrimary: Colors.white,
                                             onBackground: Colors.white,
-                                            primary: Colors.green),
+                                            primary: Color(0xFF6C3483)),
                                         datePickerTheme:
                                             const DatePickerThemeData(
-                                          headerBackgroundColor: Colors.green,
+                                          headerBackgroundColor: Color(0xFF6C3483),
                                           backgroundColor: Colors.white,
                                           headerForegroundColor: Colors.white,
                                           surfaceTintColor: Colors.white,
@@ -233,10 +233,10 @@ class _LeavePageState extends State<LeavePage> {
                                         colorScheme: const ColorScheme.light(
                                             onPrimary: Colors.white,
                                             onBackground: Colors.white,
-                                            primary: Colors.green),
+                                            primary: Color(0xFF6C3483)),
                                         datePickerTheme:
                                             const DatePickerThemeData(
-                                          headerBackgroundColor: Colors.green,
+                                          headerBackgroundColor: Color(0xFF6C3483),
                                           backgroundColor: Colors.white,
                                           headerForegroundColor: Colors.white,
                                           surfaceTintColor: Colors.white,
@@ -287,9 +287,9 @@ class _LeavePageState extends State<LeavePage> {
                     ),
                     child: Material(
                       borderRadius: BorderRadius.circular(20),
-                      color: Colors.green,
+                      color: Color.fromARGB(255, 14, 174, 107),
                       child: InkWell(
-                        splashColor: Colors.greenAccent,
+                        splashColor: Color.fromARGB(255, 67, 192, 140),
                         borderRadius: BorderRadius.circular(20),
                         onTap: () {
                           if (controllerName.text.isEmpty ||
@@ -348,7 +348,7 @@ class _LeavePageState extends State<LeavePage> {
       content: Row(
         children: [
           const CircularProgressIndicator(
-              valueColor: AlwaysStoppedAnimation<Color>(Colors.green)),
+              valueColor: AlwaysStoppedAnimation<Color>(Color.fromARGB(255, 14, 174, 107))),
           Container(
             margin: const EdgeInsets.only(left: 20),
             child: const Text("sedang memeriksa data..."),
@@ -397,7 +397,7 @@ class _LeavePageState extends State<LeavePage> {
               ),
             ],
           ),
-          backgroundColor: Colors.green,
+          backgroundColor: Color.fromARGB(255, 14, 174, 107),
           shape: StadiumBorder(),
           behavior: SnackBarBehavior.floating,
         ),

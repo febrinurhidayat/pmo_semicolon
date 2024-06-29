@@ -95,7 +95,7 @@ class _AbsenPageState extends State<AbsenPage> {
       backgroundColor: Colors.white,
       appBar: AppBar(
         elevation: 0,
-        backgroundColor: Colors.green,
+        backgroundColor: Color(0xFF6C3483),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back_ios, color: Colors.white),
           onPressed: () => Navigator.of(context).pop(),
@@ -123,7 +123,7 @@ class _AbsenPageState extends State<AbsenPage> {
                     borderRadius: BorderRadius.only(
                         topLeft: Radius.circular(10),
                         topRight: Radius.circular(10)),
-                    color: Colors.green,
+                    color: Color(0xFF6C3483),
                   ),
                   child: const Row(
                     children: [
@@ -169,7 +169,7 @@ class _AbsenPageState extends State<AbsenPage> {
                     child: DottedBorder(
                       radius: const Radius.circular(10),
                       borderType: BorderType.RRect,
-                      color: Colors.green,
+                      color: Color(0xFF6C3483),
                       strokeWidth: 1,
                       dashPattern: const [5, 5],
                       child: SizedBox.expand(
@@ -178,7 +178,7 @@ class _AbsenPageState extends State<AbsenPage> {
                               ? Image.file(File(image!.path), fit: BoxFit.cover)
                               : const Icon(
                                   Icons.camera_enhance_outlined,
-                                  color: Colors.green,
+                                  color: Color(0xFF6C3483),
                                 ),
                         ),
                       ),
@@ -202,11 +202,11 @@ class _AbsenPageState extends State<AbsenPage> {
                           const TextStyle(fontSize: 14, color: Colors.black),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10),
-                        borderSide: const BorderSide(color: Colors.green),
+                        borderSide: const BorderSide(color: Color(0xFF6C3483)),
                       ),
                       enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10),
-                        borderSide: const BorderSide(color: Colors.green),
+                        borderSide: const BorderSide(color: Color(0xFF6C3483)),
                       ),
                     ),
                   ),
@@ -224,7 +224,7 @@ class _AbsenPageState extends State<AbsenPage> {
                 isLoading
                     ? const Center(
                         child: CircularProgressIndicator(
-                        color: Colors.green,
+                        color: Color.fromARGB(255, 14, 174, 107),
                       ))
                     : Padding(
                         padding: const EdgeInsets.all(10),
@@ -238,7 +238,7 @@ class _AbsenPageState extends State<AbsenPage> {
                               disabledBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(10),
                                 borderSide:
-                                    const BorderSide(color: Colors.green),
+                                    const BorderSide(color: Color(0xFF6C3483)),
                               ),
                               hintText: strAlamat != null
                                   ? strAlamat
@@ -265,9 +265,9 @@ class _AbsenPageState extends State<AbsenPage> {
                             color: Colors.white),
                         child: Material(
                           borderRadius: BorderRadius.circular(20),
-                          color: Colors.green, //tombol
+                          color: Color.fromARGB(255, 14, 174, 107), //tombol
                           child: InkWell(
-                            splashColor: Colors.green,
+                            splashColor: Color.fromARGB(255, 71, 213, 154),
                             borderRadius: BorderRadius.circular(20),
                             onTap: () {
                               if (image == null ||
@@ -286,7 +286,7 @@ class _AbsenPageState extends State<AbsenPage> {
                                           style: TextStyle(color: Colors.white))
                                     ],
                                   ),
-                                  backgroundColor: Colors.green,
+                                  backgroundColor: Color.fromARGB(255, 222, 69, 69) ,
                                   shape: StadiumBorder(),
                                   behavior: SnackBarBehavior.floating,
                                 ));
@@ -354,7 +354,7 @@ class _AbsenPageState extends State<AbsenPage> {
             )
           ],
         ),
-        backgroundColor: Colors.green,
+        backgroundColor: Color(0xFF6C3483),
         shape: StadiumBorder(),
         behavior: SnackBarBehavior.floating,
       ));
@@ -379,7 +379,7 @@ class _AbsenPageState extends State<AbsenPage> {
               )
             ],
           ),
-          backgroundColor: Colors.green,
+          backgroundColor: Color(0xFF6C3483),
           shape: StadiumBorder(),
           behavior: SnackBarBehavior.floating,
         ));
@@ -402,7 +402,7 @@ class _AbsenPageState extends State<AbsenPage> {
             )
           ],
         ),
-        backgroundColor: Colors.green,
+        backgroundColor: Color(0xFF6C3483),
         shape: StadiumBorder(),
         behavior: SnackBarBehavior.floating,
       ));
@@ -416,7 +416,7 @@ class _AbsenPageState extends State<AbsenPage> {
       content: Row(
         children: [
           const CircularProgressIndicator(
-              valueColor: AlwaysStoppedAnimation<Color>(Colors.green)),
+              valueColor: AlwaysStoppedAnimation<Color>(Color(0xFF6C3483))),
           Container(
             margin: const EdgeInsets.only(left: 20),
             child: const Text("sedang memeriksa data..."),
@@ -534,7 +534,7 @@ class _AbsenPageState extends State<AbsenPage> {
                     style: TextStyle(color: Colors.white))
               ],
             ),
-            backgroundColor: Colors.green,
+            backgroundColor: Color(0xFF6C3483),
             shape: StadiumBorder(),
             behavior: SnackBarBehavior.floating,
           ));
@@ -555,7 +555,7 @@ class _AbsenPageState extends State<AbsenPage> {
                 ),
               ],
             ),
-            backgroundColor: Colors.green,
+            backgroundColor: Color(0xFF6C3483),
             shape: const StadiumBorder(),
             behavior: SnackBarBehavior.floating,
           ));
@@ -575,7 +575,7 @@ class _AbsenPageState extends State<AbsenPage> {
                     style: const TextStyle(color: Colors.white)))
           ],
         ),
-        backgroundColor: Colors.green,
+        backgroundColor: Color(0xFF6C3483),
         shape: const StadiumBorder(),
         behavior: SnackBarBehavior.floating,
       ));
