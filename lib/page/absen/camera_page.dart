@@ -154,7 +154,7 @@ class _State extends State<CameraAbsenPage> with TickerProviderStateMixin {
                         child: Material(
                           color: Color(0xFF6C3483), // Button color
                           child: InkWell(
-                            splashColor: Color(0xFF6C3483), // Splash color
+                            splashColor: Color.fromARGB(255, 187, 106, 219), // Splash color
                             onTap: () async {
                               final hasPermission = await handleLocationPermission();
                               try {
@@ -183,7 +183,7 @@ class _State extends State<CameraAbsenPage> with TickerProviderStateMixin {
                                               )
                                             ],
                                           ),
-                                          backgroundColor: Color(0xFF6C3483),
+                                          backgroundColor: Color.fromARGB(255, 222, 69, 69),
                                           shape: StadiumBorder(),
                                           behavior: SnackBarBehavior.floating,
                                         ));
@@ -205,7 +205,7 @@ class _State extends State<CameraAbsenPage> with TickerProviderStateMixin {
                                       )
                                     ],
                                   ),
-                                  backgroundColor: Color(0xFF6C3483),
+                                  backgroundColor: Color.fromARGB(255, 222, 69, 69),
                                   shape: const StadiumBorder(),
                                   behavior: SnackBarBehavior.floating,
                                 ));
@@ -249,7 +249,7 @@ class _State extends State<CameraAbsenPage> with TickerProviderStateMixin {
             )
           ],
         ),
-        backgroundColor: Color(0xFF6C3483),
+        backgroundColor: Color.fromARGB(255, 222, 69, 69),
         shape: StadiumBorder(),
         behavior: SnackBarBehavior.floating,
       ));
@@ -273,7 +273,7 @@ class _State extends State<CameraAbsenPage> with TickerProviderStateMixin {
               )
             ],
           ),
-          backgroundColor: Color(0xFF6C3483),
+          backgroundColor: Color.fromARGB(255, 222, 69, 69),
           shape: StadiumBorder(),
           behavior: SnackBarBehavior.floating,
         ));
@@ -295,7 +295,7 @@ class _State extends State<CameraAbsenPage> with TickerProviderStateMixin {
             )
           ],
         ),
-        backgroundColor: Color(0xFF6C3483),
+        backgroundColor: Color.fromARGB(255, 222, 69, 69),
         shape: StadiumBorder(),
         behavior: SnackBarBehavior.floating,
       ));
