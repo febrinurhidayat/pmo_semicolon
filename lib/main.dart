@@ -1,6 +1,7 @@
+import 'package:absensi_flutter/page/login/login_page.dart';
+import 'package:absensi_flutter/page/main_page.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'page/main_page.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -24,15 +25,17 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        cardTheme: const CardTheme(surfaceTintColor: Colors.white),
-        dialogTheme: const DialogTheme(
-            surfaceTintColor: Colors.white, backgroundColor: Colors.white),
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.green),
-        useMaterial3: true,
-      ),
-      home: const MainPage(),
-    );
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(
+          cardTheme: const CardTheme(surfaceTintColor: Colors.white),
+          dialogTheme: const DialogTheme(
+              surfaceTintColor: Colors.white, backgroundColor: Colors.white),
+          colorScheme: ColorScheme.fromSeed(seedColor: Colors.green),
+          useMaterial3: true,
+        ),
+        home: const LoginPage(),
+        routes: {
+          '/login': (context) => const LoginPage(),
+        });
   }
 }

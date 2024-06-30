@@ -1,30 +1,33 @@
-import 'package:absensi_flutter/page/absen/absen_page.dart';
-import 'package:absensi_flutter/page/history/history_page.dart';
-import 'package:absensi_flutter/page/leave/leave_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+
+import 'absen/absen_page.dart';
+import 'history/history_page.dart';
+import 'leave/leave_page.dart';
+import 'login/login_page.dart'; // Import halaman login yang sesuai dengan aplikasi Anda
 
 class MainPage extends StatelessWidget {
-  const MainPage({super.key});
+  const MainPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return PopScope(
-      canPop: false,
-      onPopInvoked: (bool didPop) {
-        if (didPop) {
-          return;
-        }
-        _onWillPop(context);
-      },
+    return WillPopScope(
+      onWillPop: () => _onWillPop(context),
       child: Scaffold(
-       appBar: AppBar(
-          backgroundColor: Color(0xFF6C3483),
+        appBar: AppBar(
+          backgroundColor: const Color(0xFF6C3483),
           title: const Text(
-            "Absensi Face id",
+            "Absensi Face ID",
             style: TextStyle(color: Colors.white),
           ),
           centerTitle: true,
+          actions: [
+            IconButton(
+              icon: const Icon(Icons.logout),
+              onPressed: () => _showLogoutDialog(context),
+            ),
+          ],
         ),
         backgroundColor: Colors.white,
         body: SafeArea(
@@ -32,100 +35,75 @@ class MainPage extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Container(
-                  margin: const EdgeInsets.all(10),
-                  child: Expanded(
-                    child: InkWell(
-                      highlightColor: Colors.transparent,
-                      splashColor: Colors.transparent,
-                      onTap: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const AbsenPage()));
-                      },
-                      child: const Column(
-                        children: [
-                          Image(
-                            image: AssetImage('assets/images/ic_absen.png'),
-                            height: 100,
-                            width: 100,
-                          ),
-                          SizedBox(height: 10),
-                          Text(
-                            "Absen Kehadiran",
-                            style: TextStyle(
-                                fontSize: 14, fontWeight: FontWeight.bold),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
+                _buildMenuItem(
+                  imageAsset: 'assets/images/ic_absen.png',
+                  title: "Absen Kehadiran",
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const AbsenPage()),
+                    );
+                  },
                 ),
                 const SizedBox(height: 40),
-                Container(
-                  margin: const EdgeInsets.all(10),
-                  child: Expanded(
-                    child: InkWell(
-                      highlightColor: Colors.transparent,
-                      splashColor: Colors.transparent,
-                      onTap: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const LeavePage()));
-                      },
-                      child: const Column(
-                        children: [
-                          Image(
-                            image: AssetImage('assets/images/ic_leave.png'),
-                            height: 100,
-                            width: 100,
-                          ),
-                          SizedBox(height: 10),
-                          Text(
-                            "Cuti / Izin",
-                            style: TextStyle(
-                                fontSize: 14, fontWeight: FontWeight.bold),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
+                _buildMenuItem(
+                  imageAsset: 'assets/images/ic_leave.png',
+                  title: "Cuti / Izin",
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const LeavePage()),
+                    );
+                  },
                 ),
                 const SizedBox(height: 40),
-                Container(
-                  margin: const EdgeInsets.all(10),
-                  child: Expanded(
-                    child: InkWell(
-                      highlightColor: Colors.transparent,
-                      splashColor: Colors.transparent,
-                      onTap: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const HistoryPage()));
-                      },
-                      child: const Column(
-                        children: [
-                          Image(
-                            image: AssetImage('assets/images/ic_history.png'),
-                            height: 100,
-                            width: 100,
-                          ),
-                          SizedBox(height: 10),
-                          Text(
-                            "Riwayat Absensi",
-                            style: TextStyle(
-                                fontSize: 14, fontWeight: FontWeight.bold),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
+                _buildMenuItem(
+                  imageAsset: 'assets/images/ic_history.png',
+                  title: "Riwayat Absensi",
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const HistoryPage()),
+                    );
+                  },
                 ),
               ],
             ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildMenuItem({
+    required String imageAsset,
+    required String title,
+    required VoidCallback onTap,
+  }) {
+    return Container(
+      margin: const EdgeInsets.all(10),
+      child: Expanded(
+        child: InkWell(
+          highlightColor: Colors.transparent,
+          splashColor: Colors.transparent,
+          onTap: onTap,
+          child: Column(
+            children: [
+              Image(
+                image: AssetImage(imageAsset),
+                height: 100,
+                width: 100,
+              ),
+              const SizedBox(height: 10),
+              Text(
+                title,
+                style:
+                    const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+              ),
+            ],
           ),
         ),
       ),
@@ -140,26 +118,44 @@ class MainPage extends StatelessWidget {
             title: const Text(
               "INFO",
               style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold),
+                color: Colors.black,
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+              ),
             ),
-            content: const Text("Apa Anda ingin keluar dari aplikasi?",
-                style: TextStyle(color: Colors.black, fontSize: 16)),
+            content: const Text(
+              "Apa Anda ingin keluar dari aplikasi?",
+              style: TextStyle(color: Colors.black, fontSize: 16),
+            ),
             actions: [
               TextButton(
                 onPressed: () => Navigator.of(context).pop(false),
-                child: const Text("Batal",
-                    style: TextStyle(color: Colors.black, fontSize: 14)),
+                child: const Text(
+                  "Batal",
+                  style: TextStyle(color: Colors.black, fontSize: 14),
+                ),
               ),
               TextButton(
                 onPressed: () => SystemNavigator.pop(),
-                child: const Text("Ya",
-                    style: TextStyle(color: Color(0xFF6C3483), fontSize: 14)),
+                child: const Text(
+                  "Ya",
+                  style: TextStyle(color: Color(0xFF6C3483), fontSize: 14),
+                ),
               ),
             ],
           ),
         )) ??
         false;
+  }
+
+  Future<void> _showLogoutDialog(BuildContext context) async {
+    try {
+      await FirebaseAuth.instance.signOut();
+      Navigator.of(context).pushNamedAndRemoveUntil(
+          '/login', (Route<dynamic> route) => false);
+    } catch (e) {
+      print("Error during logout: $e");
+      // Handle error jika terjadi
+    }
   }
 }
