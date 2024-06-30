@@ -63,7 +63,7 @@ class _LeavePageState extends State<LeavePage> {
                     Icon(Icons.maps_home_work_outlined, color: Colors.white),
                     SizedBox(width: 12),
                     Text(
-                      "Isi From Sesuai Pengajuan ya!",
+                      "Isi Form Sesuai Pengajuan ya!",
                       style: TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
@@ -287,9 +287,9 @@ class _LeavePageState extends State<LeavePage> {
                     ),
                     child: Material(
                       borderRadius: BorderRadius.circular(20),
-                      color: Color.fromARGB(255, 14, 174, 107),
+                      color: const Color.fromARGB(255, 14, 174, 107),
                       child: InkWell(
-                        splashColor: Color.fromARGB(255, 67, 192, 140),
+                        splashColor: const Color.fromARGB(255, 67, 192, 140),
                         borderRadius: BorderRadius.circular(20),
                         onTap: () {
                           if (controllerName.text.isEmpty ||
@@ -315,7 +315,7 @@ class _LeavePageState extends State<LeavePage> {
                               ),
                             );
                           } else {
-                            submitAbsen(
+                            checkAndSubmitAbsen(
                               controllerName.text,
                               dropValueCategories,
                               fromController.text,
@@ -364,48 +364,79 @@ class _LeavePageState extends State<LeavePage> {
       },
     );
 
-    // Contoh penutupan dialog setelah 1 detik
-    Future.delayed(Duration(seconds: 1), () {
-      Navigator.of(context).pop(); // Tutup dialog setelah 1 detik
+    // contoh penutupan dialog setelah 1 detik
+    Future.delayed(const Duration(seconds: 1), () {
+      Navigator.of(context).pop(); // tutup dialog setelah 1 detik
       Navigator.pushReplacement(
           context,
           MaterialPageRoute(
-              builder: (BuildContext context) =>
-                  MainPage())); // Pindah ke halaman MainPage
+              builder: (BuildContext context) => const MainPage())); // pindah ke halaman mainpage
     });
+  }
+
+  Future<void> checkAndSubmitAbsen(String nama, String keterangan, String from,
+      String until) async {
+    showLoaderDialog(context);
+
+    final QuerySnapshot result = await dataCollection
+        .where('nama', isEqualTo: nama)
+        .where('datetime', isEqualTo: '$from - $until')
+        .get();
+
+    if (result.docs.isNotEmpty) {
+      Navigator.of(context).pop(); // tutup dialog loader
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Row(
+            children: [
+              const Icon(Icons.info_outline, color: Colors.white),
+              const SizedBox(width: 10),
+              Text(
+                "$nama sudah ada, $nama sudah absen.",
+                style: const TextStyle(color: Colors.white),
+              ),
+            ],
+          ),
+          backgroundColor: Colors.redAccent,
+          shape: const StadiumBorder(),
+          behavior: SnackBarBehavior.floating,
+        ),
+      );
+    } else {
+      await submitAbsen(nama, keterangan, from, until);
+    }
   }
 
   Future<void> submitAbsen(
       String nama, String keterangan, String from, String until) async {
-    showLoaderDialog(context);
     dataCollection.add({
       'alamat': '-',
       'nama': nama,
       'keterangan': keterangan,
       'datetime': '$from - $until'
     }).then((result) {
-      Navigator.of(context).pop(); // Close the loader dialog
+      Navigator.of(context).pop(); // tutup dialog loader
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
+        SnackBar(
           content: Row(
             children: [
-              Icon(Icons.check_circle_outline, color: Colors.white),
-              SizedBox(width: 10),
+              const Icon(Icons.check_circle_outline, color: Colors.white),
+              const SizedBox(width: 10),
               Text(
-                "Yeay! Absen berhasil!",
-                style: TextStyle(color: Colors.white),
+                "Yeay! $nama berhasil absen!",
+                style: const TextStyle(color: Colors.white),
               ),
             ],
           ),
-          backgroundColor: Color.fromARGB(255, 14, 174, 107),
-          shape: StadiumBorder(),
+          backgroundColor: const Color.fromARGB(255, 14, 174, 107),
+          shape: const StadiumBorder(),
           behavior: SnackBarBehavior.floating,
         ),
       );
       Navigator.pushReplacement(
           context, MaterialPageRoute(builder: (context) => const MainPage()));
     }).catchError((error) {
-      Navigator.of(context).pop(); // Close the loader dialog
+      Navigator.of(context).pop(); // tutup dialog loader
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Row(
