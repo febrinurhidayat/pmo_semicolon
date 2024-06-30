@@ -24,7 +24,7 @@ class MainPage extends StatelessWidget {
           centerTitle: true,
           actions: [
             IconButton(
-              icon: const Icon(Icons.logout),
+              icon: const Icon(Icons.logout, color: Colors.white),
               onPressed: () => _showLogoutDialog(context),
             ),
           ],
@@ -149,13 +149,51 @@ class MainPage extends StatelessWidget {
   }
 
   Future<void> _showLogoutDialog(BuildContext context) async {
-    try {
-      await FirebaseAuth.instance.signOut();
-      Navigator.of(context).pushNamedAndRemoveUntil(
-          '/login', (Route<dynamic> route) => false);
-    } catch (e) {
-      print("Error during logout: $e");
-      // Handle error jika terjadi
-    }
-  }
+  await showDialog(
+    barrierDismissible: false,
+    context: context,
+    builder: (context) => AlertDialog(
+      title: const Text(
+        "Konfirmasi Logout",
+        style: TextStyle(
+          color: Colors.black,
+          fontSize: 20,
+          fontWeight: FontWeight.bold,
+        ),
+      ),
+      content: const Text(
+        "Apakah Anda ingin keluar dari aplikasi?",
+        style: TextStyle(color: Colors.black, fontSize: 16),
+      ),
+      actions: [
+        TextButton(
+          onPressed: () => Navigator.of(context).pop(),
+          child: const Text(
+            "Batal",
+            style: TextStyle(color: Colors.red, fontSize: 14),
+          ),
+        ),
+        TextButton(
+          onPressed: () async {
+            try {
+              await FirebaseAuth.instance.signOut();
+              Navigator.of(context).pushNamedAndRemoveUntil(
+                '/login',
+                (Route<dynamic> route) => false,
+              );
+            } catch (e) {
+              print("Error during logout: $e");
+              // Handle error jika terjadi
+            }
+          },
+          child: const Text(
+            "Ya",
+            style: TextStyle(color: Colors.green, fontSize: 14),
+          ),
+        ),
+      ],
+    ),
+  );
+}
+
 }

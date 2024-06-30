@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 class LeavePage extends StatefulWidget {
-  const LeavePage({super.key});
+  const LeavePage({Key? key}) : super(key: key);
 
   @override
   State<LeavePage> createState() => _LeavePageState();
@@ -379,7 +379,7 @@ class _LeavePageState extends State<LeavePage> {
     showLoaderDialog(context);
 
     final QuerySnapshot result = await dataCollection
-        .where('nama', isEqualTo: nama)
+        .where('nama', isEqualTo: nama.toLowerCase()) // Convert nama to lowercase
         .where('datetime', isEqualTo: '$from - $until')
         .get();
 
@@ -403,7 +403,7 @@ class _LeavePageState extends State<LeavePage> {
         ),
       );
     } else {
-      await submitAbsen(nama, keterangan, from, until);
+      await submitAbsen(nama.toLowerCase(), keterangan, from, until); // Convert nama to lowercase
     }
   }
 
@@ -411,7 +411,7 @@ class _LeavePageState extends State<LeavePage> {
       String nama, String keterangan, String from, String until) async {
     dataCollection.add({
       'alamat': '-',
-      'nama': nama,
+      'nama': nama.toLowerCase(), // Convert nama to lowercase
       'keterangan': keterangan,
       'datetime': '$from - $until'
     }).then((result) {
@@ -458,4 +458,5 @@ class _LeavePageState extends State<LeavePage> {
       );
     });
   }
+
 }

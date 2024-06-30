@@ -1,47 +1,55 @@
-import 'package:absensi_flutter/page/login/registrasi_page.dart';
-import 'package:absensi_flutter/page/main_page.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'login_page.dart'; // Import halaman login
 
-class LoginPage extends StatefulWidget {
-  const LoginPage({Key? key}) : super(key: key);
+class RegistrationPage extends StatefulWidget {
+  const RegistrationPage({Key? key}) : super(key: key);
 
   @override
-  State<LoginPage> createState() => _LoginPageState();
+  State<RegistrationPage> createState() => _RegistrationPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _RegistrationPageState extends State<RegistrationPage> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final _formKey = GlobalKey<FormState>(); // Key untuk form
 
-  Future<void> signIn() async {
+  Future<void> register() async {
     if (_formKey.currentState!.validate()) {
       // Validasi form
       try {
         UserCredential userCredential =
-            await FirebaseAuth.instance.signInWithEmailAndPassword(
+            await FirebaseAuth.instance.createUserWithEmailAndPassword(
           email: emailController.text.trim(),
           password: passwordController.text.trim(),
         );
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => const MainPage()),
+        // Handle successful registration, show dialog
+        showDialog(
+          context: context,
+          builder: (BuildContext context) => AlertDialog(
+            title: const Text("Berhasil Terdaftar"),
+            content: const Text("Anda Telah Berhasil Mendaftar."),
+            actions: <Widget>[
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop(); // Tutup dialog
+                  Navigator.pushReplacement(
+                    // Navigasi ke halaman login
+                    context,
+                    MaterialPageRoute(builder: (context) => const LoginPage()),
+                  );
+                },
+                child: const Text("OK"),
+              ),
+            ],
+          ),
         );
       } catch (e) {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
-            content: Row(
-              children: [
-                Icon(Icons.error_outline, color: Colors.white),
-                SizedBox(width: 10),
-                Expanded(
-                  child: Text(
-                    "Ups Email atau Password Salah",
-                    style: TextStyle(color: Colors.white),
-                  ),
-                ),
-              ],
+            content: Text(
+              "Email Sudah Ada",
+              style: TextStyle(color: Colors.white),
             ),
             backgroundColor: Colors.redAccent,
             shape: StadiumBorder(),
@@ -58,13 +66,18 @@ class _LoginPageState extends State<LoginPage> {
       appBar: AppBar(
         backgroundColor: const Color(0xFF6C3483),
         title: const Text(
-          "Selamat Datang di Absensi",
-          style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.white),
+          "Registrasi",
+          style: TextStyle(
+            fontSize: 24,
+            fontWeight: FontWeight.bold,
+            color: Colors.white,
+          ),
         ),
         centerTitle: true,
       ),
       backgroundColor: Colors.white,
-      body: Center(
+      body: Align(
+        alignment: Alignment.centerLeft,
         child: Padding(
           padding: const EdgeInsets.all(20.0),
           child: Form(
@@ -113,26 +126,16 @@ class _LoginPageState extends State<LoginPage> {
                 ),
                 const SizedBox(height: 20),
                 ElevatedButton(
-                  onPressed: signIn,
+                  onPressed: register,
                   style: ElevatedButton.styleFrom(
                     backgroundColor: const Color(0xFF6C3483),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10),
                     ),
                   ),
-                  child: const Text("Login", style: TextStyle(color: Colors.white)),
-                ),
-                const SizedBox(height: 10),
-                TextButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => const RegistrationPage()),
-                    );
-                  },
                   child: const Text(
-                    "Belum punya akun? Registrasi di sini",
-                    style: TextStyle(color: Colors.blue),
+                    "Registrasi",
+                    style: TextStyle(color: Colors.white),
                   ),
                 ),
               ],

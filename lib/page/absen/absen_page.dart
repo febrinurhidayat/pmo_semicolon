@@ -446,7 +446,7 @@ class _AbsenPageState extends State<AbsenPage> {
   //check format date time
   void setDateTime() async {
     var dateNow = DateTime.now();
-    var dateFormat = DateFormat('dd MMMM yyyy');
+    var dateFormat = DateFormat('dd/M/yyyy');
     var dateTime = DateFormat('HH:mm:ss');
     var dateHour = DateFormat('HH');
     var dateMinute = DateFormat('mm');
