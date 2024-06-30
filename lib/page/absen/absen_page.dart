@@ -354,7 +354,7 @@ class _AbsenPageState extends State<AbsenPage> {
             )
           ],
         ),
-        backgroundColor: Color(0xFF6C3483),
+        backgroundColor: Color.fromARGB(255, 222, 69, 69),
         shape: StadiumBorder(),
         behavior: SnackBarBehavior.floating,
       ));
@@ -416,7 +416,7 @@ class _AbsenPageState extends State<AbsenPage> {
       content: Row(
         children: [
           const CircularProgressIndicator(
-              valueColor: AlwaysStoppedAnimation<Color>(Color(0xFF6C3483))),
+              valueColor: AlwaysStoppedAnimation<Color>(Color.fromARGB(255, 14, 174, 107))),
           Container(
             margin: const EdgeInsets.only(left: 20),
             child: const Text("sedang memeriksa data..."),
@@ -534,7 +534,7 @@ class _AbsenPageState extends State<AbsenPage> {
                     style: TextStyle(color: Colors.white))
               ],
             ),
-            backgroundColor: Color(0xFF6C3483),
+            backgroundColor: Color.fromARGB(255, 14, 174, 107),
             shape: StadiumBorder(),
             behavior: SnackBarBehavior.floating,
           ));
