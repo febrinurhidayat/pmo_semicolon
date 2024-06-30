@@ -354,7 +354,7 @@ class _AbsenPageState extends State<AbsenPage> {
             )
           ],
         ),
-        backgroundColor: Color(0xFF6C3483),
+        backgroundColor: Color.fromARGB(255, 222, 69, 69),
         shape: StadiumBorder(),
         behavior: SnackBarBehavior.floating,
       ));
@@ -534,7 +534,7 @@ class _AbsenPageState extends State<AbsenPage> {
                     style: TextStyle(color: Colors.white))
               ],
             ),
-            backgroundColor: Color(0xFF6C3483),
+            backgroundColor: Color.fromARGB(255, 222, 69, 69),
             shape: StadiumBorder(),
             behavior: SnackBarBehavior.floating,
           ));
