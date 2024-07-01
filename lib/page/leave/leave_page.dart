@@ -177,7 +177,8 @@ class _LeavePageState extends State<LeavePage> {
                                             primary: Color(0xFF6C3483)),
                                         datePickerTheme:
                                             const DatePickerThemeData(
-                                          headerBackgroundColor: Color(0xFF6C3483),
+                                          headerBackgroundColor:
+                                              Color(0xFF6C3483),
                                           backgroundColor: Colors.white,
                                           headerForegroundColor: Colors.white,
                                           surfaceTintColor: Colors.white,
@@ -236,7 +237,8 @@ class _LeavePageState extends State<LeavePage> {
                                             primary: Color(0xFF6C3483)),
                                         datePickerTheme:
                                             const DatePickerThemeData(
-                                          headerBackgroundColor: Color(0xFF6C3483),
+                                          headerBackgroundColor:
+                                              Color(0xFF6C3483),
                                           backgroundColor: Colors.white,
                                           headerForegroundColor: Colors.white,
                                           surfaceTintColor: Colors.white,
@@ -314,6 +316,28 @@ class _LeavePageState extends State<LeavePage> {
                                 behavior: SnackBarBehavior.floating,
                               ),
                             );
+                          } else if (DateFormat('dd/M/yyyy')
+                                  .parse(fromController.text)
+                                  .isAfter(DateFormat('dd/M/yyyy')
+                                      .parse(toController.text))) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                content: Row(
+                                  children: [
+                                    Icon(Icons.info_outline,
+                                        color: Colors.white),
+                                    SizedBox(width: 10),
+                                    Text(
+                                      "Ups, tanggal mulai tidak boleh setelah tanggal akhir!",
+                                      style: TextStyle(color: Colors.white),
+                                    ),
+                                  ],
+                                ),
+                                backgroundColor: Colors.redAccent,
+                                shape: StadiumBorder(),
+                                behavior: SnackBarBehavior.floating,
+                              ),
+                            );
                           } else {
                             checkAndSubmitAbsen(
                               controllerName.text,
@@ -348,7 +372,8 @@ class _LeavePageState extends State<LeavePage> {
       content: Row(
         children: [
           const CircularProgressIndicator(
-              valueColor: AlwaysStoppedAnimation<Color>(Color.fromARGB(255, 14, 174, 107))),
+              valueColor: AlwaysStoppedAnimation<Color>(
+                  Color.fromARGB(255, 14, 174, 107))),
           Container(
             margin: const EdgeInsets.only(left: 20),
             child: const Text("sedang memeriksa data..."),
@@ -370,40 +395,47 @@ class _LeavePageState extends State<LeavePage> {
       Navigator.pushReplacement(
           context,
           MaterialPageRoute(
-              builder: (BuildContext context) => const MainPage())); // pindah ke halaman mainpage
+              builder: (BuildContext context) =>
+                  const MainPage())); // pindah ke halaman mainpage
     });
+  }
+
+  Future<bool> checkIfNameExists(String nama) async {
+    final QuerySnapshot result = await dataCollection
+        .where('nama', isEqualTo: nama.toLowerCase())
+        .limit(1)
+        .get();
+    final List<DocumentSnapshot> documents = result.docs;
+    return documents.isNotEmpty;
   }
 
   Future<void> checkAndSubmitAbsen(String nama, String keterangan, String from,
       String until) async {
     showLoaderDialog(context);
 
-    final QuerySnapshot result = await dataCollection
-        .where('nama', isEqualTo: nama.toLowerCase()) // Convert nama to lowercase
-        .where('datetime', isEqualTo: '$from - $until')
-        .get();
+    bool nameExists = await checkIfNameExists(nama);
+    Navigator.of(context).pop(); // tutup dialog loader
 
-    if (result.docs.isNotEmpty) {
-      Navigator.of(context).pop(); // tutup dialog loader
+    if (nameExists) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
+        const SnackBar(
           content: Row(
             children: [
-              const Icon(Icons.info_outline, color: Colors.white),
-              const SizedBox(width: 10),
+              Icon(Icons.info_outline, color: Colors.white),
+              SizedBox(width: 10),
               Text(
-                "$nama sudah ada, $nama sudah absen.",
-                style: const TextStyle(color: Colors.white),
+                "Ups, Anda sudah absen.",
+                style: TextStyle(color: Colors.white),
               ),
             ],
           ),
           backgroundColor: Colors.redAccent,
-          shape: const StadiumBorder(),
+          shape: StadiumBorder(),
           behavior: SnackBarBehavior.floating,
         ),
       );
     } else {
-      await submitAbsen(nama.toLowerCase(), keterangan, from, until); // Convert nama to lowercase
+      await submitAbsen(nama, keterangan, from, until);
     }
   }
 
@@ -415,7 +447,6 @@ class _LeavePageState extends State<LeavePage> {
       'keterangan': keterangan,
       'datetime': '$from - $until'
     }).then((result) {
-      Navigator.of(context).pop(); // tutup dialog loader
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Row(
@@ -436,7 +467,6 @@ class _LeavePageState extends State<LeavePage> {
       Navigator.pushReplacement(
           context, MaterialPageRoute(builder: (context) => const MainPage()));
     }).catchError((error) {
-      Navigator.of(context).pop(); // tutup dialog loader
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Row(
@@ -458,5 +488,4 @@ class _LeavePageState extends State<LeavePage> {
       );
     });
   }
-
 }
